@@ -36,7 +36,7 @@ export function NavMain({
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu className="hover:bg-primary/10  active:text-primary">
         {items.map((item) => {
-          // এখানে কার্লি ব্রেসেস {} দিতে হবে এবং ভেরিয়েবলটি নিতে হবে
+        
           const Icon = item.icon;
 
           return (

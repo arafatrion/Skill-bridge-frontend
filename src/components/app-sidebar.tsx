@@ -1,10 +1,7 @@
 "use client"
 
-
 import * as React from "react"
-
 import { NavMain } from "@/components/nav-main"
-
 import {
   Sidebar,
   SidebarContent,
@@ -12,23 +9,20 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { GalleryVerticalEndIcon, AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, LayoutDashboard, Users } from "lucide-react"
 
-// This is sample data.
+
 import { 
-   
   GraduationCap, 
-  Settings, 
   BookOpen, 
   CheckSquare, 
   Wallet, 
-  Bell, 
   ShieldCheck,
-  Briefcase
+  Briefcase,
+  Users
 } from "lucide-react";
 
-// --- Admin Dashboard (Full Control) ---
-const navItems = [
+// --- Navigation Data (ADMIN, STUDENT, TUTOR) ---
+const ADMIN_nav = [
   {
     title: "Admin Dashboard",
     url: "/admin/dashboard",
@@ -59,8 +53,7 @@ const navItems = [
   },
 ];
 
-// --- Student Dashboard (Learning Focused) ---
-const navItems1 = [
+const STUDENT_nav = [
   {
     title: "My Learning",
     url: "/student/dashboard",
@@ -82,8 +75,7 @@ const navItems1 = [
   },
 ];
 
-// --- Tutor Dashboard (Teaching & Earning) ---
-const navItems2 = [
+const TUTOR_nav = [
   {
     title: "Tutor Panel",
     url: "/tutor/dashboard",
@@ -106,22 +98,36 @@ const navItems2 = [
   },
 ];
 
-interface AppSidebarProps extends  React.ComponentProps<typeof Sidebar>{
-  userRole : "ADMIN"| "TUTOR" | "STUDENT";
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userRole: "ADMIN" | "TUTOR" | "STUDENT";
 }
 
-export function AppSidebar({ userRole, ...props }:AppSidebarProps) {
+export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
+  
+  let navItems = ADMIN_nav; 
+
+  if (userRole === "TUTOR") {
+    navItems = TUTOR_nav;
+  } else if (userRole === "STUDENT") {
+    navItems = STUDENT_nav;
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        {/* <TeamSwitcher teams={data.teams} /> */}
+        <div className="flex items-center gap-2 px-4 py-2">
+           <div className="flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">
+              <GraduationCap className="h-4 w-4" />
+           </div>
+           <span className="font-bold">SkillBridge</span>
+        </div>
       </SidebarHeader>
       <SidebarContent>
+      
         <NavMain items={navItems} />
-        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        {/* <NavUser user={data.user} /> */}
+     
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
