@@ -46,4 +46,35 @@ export const getUser = async ()=>{
 export const UserLogout = async () =>{
   const storeCookie = await cookies();
   storeCookie.delete("token");
-}
+};
+
+export const registerUser = async (userData: FieldValues) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const result = await res.json();
+    
+    
+    const storeCookie = await cookies();
+
+   
+    if (result.success && result?.data?.token) {
+      storeCookie.set("token", result.data.token);
+    }
+
+    return result; 
+    
+  } catch (error: any) {
+    console.error("Registration Error:", error.message);
+    return {
+      success: false,
+      message: error.message || "Something went wrong during registration",
+    };
+  }
+};
