@@ -9,19 +9,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { loginUser } from "@/services/auth";
+import { useRouter } from "next/navigation";
 
 
 export default function LoginPage() {
 
   const { register, handleSubmit, formState: { isSubmitting } } = useForm();
-
  
+
+  const router = useRouter()
+
+    
   const onSubmit = async (data: FieldValues) => {
     const res = await loginUser(data);
     
     if (res?.success) {
       alert("Login Successful!");
-      
+      router.push("/")
     } else {
       alert(res?.message || "Login failed. Please try again.");
     }

@@ -13,12 +13,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUser } from "@/services/auth";
 
 export default function Navbar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const[user,setUser] = useState(null);
+  console.log(user);
   const userRole = "tutor"; // student, tutor, admin
+
+   useEffect(() =>{
+     const getCurrentUser = async ()=>{
+       const userData = await getUser();
+       setUser(userData);
+     };
+     getCurrentUser();
+   },[]);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
