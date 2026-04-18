@@ -5,17 +5,18 @@ import { getUser } from './services/auth'
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const user = await getUser();
+
+  
     if (!user) {
-        
         if (pathname.startsWith('/login') || pathname.startsWith('/register')) {
             return NextResponse.next();
         }
         return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
     }
 
-  
-    if (user && (pathname.startsWith('/login') || pathname.startsWith('/register'))) {
-        return NextResponse.redirect(new URL('/', request.url));
+   
+    if (pathname.startsWith('/login') || pathname.startsWith('/register')) {
+        return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
    
@@ -23,13 +24,19 @@ export async function proxy(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
+
     if (pathname.startsWith('/tutor') && user.role !== 'TUTOR') {
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+
+    
+    if (pathname.startsWith('/student') && user.role !== 'STUDENT') {
+       
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
     return NextResponse.next();
 }
-
 
 export const config = {
     matcher: [
