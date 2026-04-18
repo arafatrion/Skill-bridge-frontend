@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
-import { getUser } from "@/services/auth";
+import { getUser, UserLogout } from "@/services/auth";
 
 export default function Navbar() {
 
@@ -30,6 +30,10 @@ export default function Navbar() {
      };
      getCurrentUser();
    },[]);
+
+   const handleaLogOut = ()=>{
+    UserLogout()
+   }
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -77,9 +81,11 @@ export default function Navbar() {
               </DropdownMenu>
             ) : (
               <div className="flex gap-2">
-                <Button variant="ghost" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
+               {user ?  <Button variant="ghost" asChild>
+                  <Link onClick={handleaLogOut} href="/login">logOut</Link>
+                </Button> :  <Button variant="ghost" asChild>
+                  <Link href="/login">LogIn</Link>
+                </Button>}
                 <Button asChild>
                   <Link href="/register">Join Now</Link>
                 </Button>

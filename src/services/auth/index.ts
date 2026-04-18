@@ -42,3 +42,8 @@ export const getUser = async ()=>{
     return null;
   }
 };
+
+export const UserLogout = async () =>{
+  const storeCookie = await cookies();
+  storeCookie.delete("token");
+}
