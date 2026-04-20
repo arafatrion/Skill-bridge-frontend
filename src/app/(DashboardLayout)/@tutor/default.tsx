@@ -1,6 +1,3 @@
-  export  const Tutordefault = () =>{
-    return null;
-   };
-   
-
- 
+export default function Default() {
+  return null;
+}

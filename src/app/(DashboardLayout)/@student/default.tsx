@@ -1,6 +1,3 @@
-     const Studentdefault = () =>{
-    return null;
-   };
-   
-
-   export default Studentdefault;
+ export default function Default() {
+  return null;
+}
