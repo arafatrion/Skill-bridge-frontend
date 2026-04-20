@@ -21,7 +21,7 @@ interface TutorProps {
 }
 
 export default function TutorCard({ tutor }: TutorProps) {
-  // যদি tutor অবজেক্টটি কোনো কারণে undefined হয় তবে এরর না দেখিয়ে null রিটার্ন করবে
+ 
   if (!tutor) return null;
 
   return (

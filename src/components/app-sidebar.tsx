@@ -20,6 +20,7 @@ import {
   Briefcase,
   Users
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // --- Navigation Data (ADMIN, STUDENT, TUTOR) ---
 const ADMIN_nav = [
@@ -111,6 +112,7 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
   } else if (userRole === "STUDENT") {
     navItems = STUDENT_nav;
   }
+  const router = useRouter();
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -119,7 +121,12 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
            <div className="flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">
               <GraduationCap className="h-4 w-4" />
            </div>
-           <span className="font-bold">SkillBridge</span>
+         <span 
+  className="font-bold cursor-pointer" 
+  onClick={() => router.push("/")}
+>
+  SkillBridge
+</span>
         </div>
       </SidebarHeader>
       <SidebarContent>

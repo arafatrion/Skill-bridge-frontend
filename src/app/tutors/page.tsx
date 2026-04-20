@@ -3,7 +3,7 @@ import { Search, Filter, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ITutor } from "@/types/tutor";
-import TutorCard from "@/components/TutorCard";
+import TutorCard from "@/components/tutor/TutorCard";
 
 
 

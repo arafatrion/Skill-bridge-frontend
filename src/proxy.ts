@@ -4,37 +4,53 @@ import { getUser } from './services/auth'
 
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
-    const user = await getUser();
+    
+    let user = null;
 
-  
+    try {
+        
+        user = await getUser();
+    } catch (error) {
+       
+        console.error("Auth process failed:", error);
+        
+       
+        if (!pathname.startsWith('/login') && !pathname.startsWith('/register')) {
+            return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
+        }
+        return NextResponse.next();
+    }
+
+
     if (!user) {
         if (pathname.startsWith('/login') || pathname.startsWith('/register')) {
             return NextResponse.next();
         }
+      
         return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
     }
 
-   
+  
     if (pathname.startsWith('/login') || pathname.startsWith('/register')) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-   
-    if (pathname.startsWith('/admin') && user.role !== 'ADMIN') {
+  
+    const userRole = user?.role;
+
+    if (pathname.startsWith('/admin') && userRole !== 'ADMIN') {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-
-    if (pathname.startsWith('/tutor') && user.role !== 'TUTOR') {
+    if (pathname.startsWith('/tutor') && userRole !== 'TUTOR') {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-    
-    if (pathname.startsWith('/student') && user.role !== 'STUDENT') {
-       
+    if (pathname.startsWith('/student') && userRole !== 'STUDENT') {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
+  
     return NextResponse.next();
 }
 
